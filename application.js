@@ -21,7 +21,7 @@ Game.prototype.rollDice = function() {
     this.dice[i].roll();
   }
 }
-
+// clearDice is by setting the array empty again.
 Game.prototype.clearDice = function() {
   this.dice = [];
 }
@@ -46,7 +46,7 @@ View.prototype.clearDice = function() {
 }
 
 // ===== Controller =====
-
+// Controller calls methods of both model and view.
 function Controller(model, view) {
   this.model = model;
   this.view = view;
