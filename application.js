@@ -1,11 +1,15 @@
 // ===== Model =====
 
 function Die() { // Make a Die function as an object
-  this.value = 0; // First, set the value of a Die as 0.
+  this.value = this.generateRandomValue(); // First, set the value of a Die as a random number by calling generateRandomValue function.
 }
 
 Die.prototype.roll = function() { // roll is an attribute of Die function using prototype.
-  this.value = Math.floor((Math.random()*6)+1); // Math.floor() returns the largest integer less than or equal to a given number.
+  this.value = this.generateRandomValue(); // set the value of a Die as a random number by calling generateRandomValue function.
+}
+
+Die.prototype.generateRandomValue = function() {
+  return Math.floor((Math.random() * 6) + 1) // Math.floor() returns the largest integer less than or equal to a given number.
 } // Math.random() gives decimal number between 0 and 1. I multiplied it by 6 to get 6 random values between 0 and 5.
 // In order to make it from 1 to 6, I had to add 1. Line 8 provides a random number between 1 and 6.
 
@@ -13,7 +17,7 @@ function Game() { // This is a Game object
   this.dice = []; // Make an empty array to contain Die objects.
 }
 
-Game.prototype.addDie = function() { // addDie function pushes Die objects into dice array.
+Game.prototype.addDie = function() { // addDie function pushes new Die objects into dice array.
   this.dice.push(new Die());
 }
 
@@ -32,8 +36,11 @@ Game.prototype.clearDice = function() {
 function View() { // Make a View function as an Object
 }
 
-View.prototype.addDie = function() { // addDie function appends class die (with a string of 0) to class dice.
-  $('.dice').append('<div class="die">0</div>');
+View.prototype.addDie = function(dice) { // addDie function appends class die (with a string of 0) to class dice.
+  for (var i = 0; i < dice.length; i++) {
+    var dieValue = dice[i].value; // iterate through dice array and set each value as dieValue variable.
+  }
+  $('.dice').append('<div class="die">' + dieValue + '</div>'); // append die class and dieValue to dice class.
 }
 
 View.prototype.drawDice = function(dice) {
@@ -55,7 +62,7 @@ function Controller(model, view) { // Controller function contains 2 parameters,
 
 Controller.prototype.addDie = function() { // addDie in Controller is simply calling addDie function of Game(model) and View.
   this.model.addDie(); // adds Die in the background.
-  this.view.addDie(); // adds Die in the front.
+  this.view.addDie(this.model.dice); // adds Die in the front.
 }
 
 Controller.prototype.rollDice = function() { // rollDice in Controller is calling rollDice function of Game and drawDice of View.
@@ -100,3 +107,11 @@ $(document).ready (function() {
 });
 
 // There is a problem in this code. It gives value of 0 when adding a new Die.
+
+// Problem solved!
+// I made a new function to generateRandomValue in Die model.
+// But I had another problem displaying it when adding a new die in the View.
+
+// I kept appending all Die values into class dice after iteration.
+// This was resolved by moving line 43 out of the for loop. I also had to set a variable for dice[i].value
+// However, I still do not understand why it works this way and does not work the other way.
