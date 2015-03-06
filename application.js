@@ -112,6 +112,9 @@ $(document).ready (function() {
 // I made a new function to generateRandomValue in Die model.
 // But I had another problem displaying it when adding a new die in the View.
 
-// I kept appending all Die values into class dice after iteration.
+// I kept appending ALL Die values (from dice array) into class dice after each iteration like below:
+// [1], [1,2], [1,2,3] 
+// Of course, it made errors when rolling dice.
+
 // This was resolved by moving line 43 out of the for loop. I also had to set a variable for dice[i].value
 // However, I still do not understand why it works this way and does not work the other way.
